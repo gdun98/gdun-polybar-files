@@ -9,8 +9,7 @@ alert = #bd2c40
 
 [bar/mybar]
 width = 100%
-height = 25
-#radius = 6.0
+height = 30
 fixed-center = true
 
 background = ${colors.background}
@@ -22,20 +21,20 @@ line-color = #f00
 border-size = 0
 border-color = #00000000
 
-padding-left = 0
-padding-right = 0
+padding-left = 1
+padding-right = 1
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
 
-font-0 = courier:pixelsize=10;1
+font-0 = monospace-regular:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 font-3 = FontAwesome:size=10;0
 
-modules-left = bspwm i3
-modules-center = cpu memory temperature battery wlan eth filesystem-root filesystem-home diskmenu xbacklight volume date time
-modules-right = powermenu
+modules-left = i3
+modules-center = cpu temperature memory battery volume xbacklight wlan eth filesystem-root filesystem-home
+modules-right = datetime powermenu
 
 tray-position = right
 tray-padding = 2
@@ -113,10 +112,13 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 [module/xbacklight]
 type = internal/xbacklight
 
+bar-foreground = ${root.foreground}
+
 format = <label>
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix = " "
-label = %percentage%%
+
+label = "%percentage%%      "
 
 
 [module/cpu]
@@ -131,7 +133,8 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-label = %percentage_used%%
+label = "%percentage_used%%       "
+
 
 [module/wlan]
 type = internal/network
@@ -141,7 +144,7 @@ interval = 3.0
 format-connected-prefix = ""
 format-connected-prefix-foreground = ${colors.foreground-alt}
 format-connected = <ramp-signal> <label-connected>
-label-connected = %essid%
+label-connected = "%essid%      "
 
 format-disconnected =
 
@@ -158,10 +161,9 @@ type = internal/network
 interface = wwp0s20u4
 interval = 3.0
 
-format-connected-underline = #55aa55
 format-connected-prefix = "ETH: "
 format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
+label-connected = "%local_ip%      "
 
 format-disconnected =
 
@@ -172,6 +174,7 @@ interval = 5
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
+format-underline = 4ABC66
 
 time = %H:%M
 label = %time%
@@ -182,24 +185,62 @@ type = internal/date
 interval = 10
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
+format-underline = 4ABC66
 date = %d/%m/%y
 
 label = %date%
+
+[module/datetime]
+type = internal/date
+
+interval = 5
+date = %d/%m/%y
+time = %H:%M
+label = %time% - %date%
 
 [module/volume]
 type = internal/volume
 
 format-volume = <ramp-volume> <label-volume>
-label-volume = %percentage:3:3%%
-label-volume-foreground = ${root.foreground}
 
-format-muted = <label-muted>
-label-muted = muted
-label-muted-foreground = #66
+ramp-volume-foreground = ${colors.foreground-alt}
 
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
+
+
+
+[module/volume-fancy]
+type = internal/volume
+
+format-volume = <ramp-volume> <bar-volume>
+
+label-volume-foreground = ${root.foreground}
+
+format-muted = <label-muted> <bar-volume>
+label-muted =  
+label-muted-foreground = #66
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+
+bar-volume-width = 7
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/battery]
 type = custom/script
@@ -212,7 +253,7 @@ format = <label>
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 
-label = %output%
+label = "%output%"
 
 [module/temperature]
 type = internal/temperature
@@ -238,8 +279,8 @@ type = custom/menu
 
 format-spacing = 1
 
-label-open = "  "
-label-open-foreground = ${colors.foreground}
+label-open = "  "
+label-open-foreground = #ff0000
 label-close = 
 label-close-foreground = ${colors.foreground}
 label-separator = " "
@@ -254,6 +295,34 @@ menu-0-1 = "  "
 menu-0-1-exec = shutdown now
 
 
+[module/temp]
+
+bar-width = 7
+bar-foreground-0 = #55aa55
+bar-foreground-1 = #55aa55
+bar-foreground-2 = #55aa55
+bar-foreground-3 = #55aa55
+bar-foreground-4 = #55aa55
+bar-foreground-5 = #f5a70a
+bar-foreground-6 = #ff5555
+bar-gradient = false
+bar-indicator = |
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-empty = ─
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground-alt}
+
+[module/spotify]
+type=custom/script
+
+exec = .config/polybar/spotify.py
+
+tail = true
+interval = 1
+
+label = %output%
 
 [global/wm]
 margin-top = 5

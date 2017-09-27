@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 from pydbus import SystemBus
 from gi.repository import GLib
 import os
@@ -57,7 +57,7 @@ def print_status():
 
         pretty_time = "%02i:%02i" % (hours, minutes)
 
-        message = "%s (%.2f%%)\n" % (pretty_time, percentage)
+        message = "%s\n" % (pretty_time)
     else:
         message = "%.2f%%\n" % (percentage)
 
